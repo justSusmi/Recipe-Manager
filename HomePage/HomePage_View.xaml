@@ -1,0 +1,143 @@
+﻿<Page x:Class="Recipte_Management.HomePage_View"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Recipte_Management"
+      mc:Ignorable="d" 
+      Title="" ShowsNavigationUI="False">
+
+    <Page.Resources>
+        <Style x:Key="RecipeListBoxStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid>
+                            <Border x:Name="border"
+                                    BorderBrush="#49A078" 
+                                    BorderThickness="1" 
+                                    Background="#49A078" 
+                                    Padding="5"
+                                    Margin="10, 5, 10, 5"
+                                    CornerRadius="3">
+
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#9CC5A1"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#9CC5A1"/>
+                            </Trigger>
+
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#216869"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#216869"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    
+    
+    <Grid Background="#DCE1DE">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderThickness="0" Background="#1F2421">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+        
+                <TextBlock Text="Rezepte" Foreground="#ffffff" FontSize="25" VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center"/>
+
+                <Border Grid.Row="1">
+                    <ListBox ItemsSource="{Binding Recipes}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch"
+                             SelectionChanged="ListBox_SelectionChanged" ItemContainerStyle="{StaticResource RecipeListBoxStyle}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}" FontSize="20" Grid.Row="0" Foreground="#ffffff"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1" BorderThickness="1" BorderBrush="#202225">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="#216869" Grid.Column="0" Grid.Row="0" Visibility="{Binding RecipeSelectedVisibility}" CornerRadius="5" Margin="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Zutaten" Foreground="#ffffff" FontSize="25" VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center"/>
+
+                        <ListBox ItemsSource="{Binding SelectedRecipe.Ingredients}" Background="Transparent" BorderThickness="0" Grid.Row="1"
+                                 HorizontalContentAlignment="Stretch" Margin="0, 15, 0, 0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Name}" FontSize="12" Foreground="#ffffff" HorizontalAlignment="Center"/>
+
+                                            <TextBlock Text="{Binding Amount}" FontSize="12" Foreground="#ffffff" Grid.Column="1" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+
+                <Border Background="#9CC5A1" Grid.Column="1" Grid.Row="0" Visibility="{Binding RecipeSelectedVisibility}" CornerRadius="5" Margin="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Anleitung" Foreground="Black" FontSize="25" VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center"/>
+
+                        <ListBox ItemsSource="{Binding FormattedInstructions}" Background="Transparent" BorderThickness="0" Grid.Row="1" Margin="0, 15, 0, 0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontSize="12" Foreground="Black" Grid.Column="1" Margin="5" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+                
+                <TextBlock Text="Wähle ein Rezept aus!" FontSize="30" Grid.RowSpan="4" Grid.ColumnSpan="2" Foreground="#b9bbbe" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoRecipeSelectedVisibility}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
